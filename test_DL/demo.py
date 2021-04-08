@@ -26,12 +26,12 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=256, shuffle=True
 net = get_model().cuda()
 
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(net.parameters(), lr=0.1)
+optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 
 print('Start Training')
 
 net.train()
-for epoch in range(10):
+for epoch in range(25):
     running_loss = 0.0
     for i, data in enumerate(trainloader):
         # get the inputs; data is a list of [inputs, labels]
@@ -52,6 +52,26 @@ for epoch in range(10):
             running_loss = 0.0
 
 print('Finished Training')
+
+validset = CustomDataset(root='./dataset', split="val", transform=train_transform)
+valLoader = torch.utils.data.DataLoader(validset, batch_size=256, shuffle=True, num_workers=2)
+
+with torch.no_grad():
+    net.eval()
+    running_loss = 0
+    for i, data in enumerate(valLoader):
+        inputs, labels = data
+        inputs, labels = inputs.cuda(), labels.cuda()
+        
+
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+        
+        running_loss += loss.item()
+        if i % 10 == 9:    # print every 10 mini-batches
+            print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            running_loss = 0.0   
+
 
 os.makedirs(args.checkpoint_dir, exist_ok=True)
 torch.save(net.state_dict(), os.path.join(args.checkpoint_dir, "net_demo.pth"))
