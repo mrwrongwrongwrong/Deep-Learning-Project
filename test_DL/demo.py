@@ -65,7 +65,7 @@ augloader2 = torch.utils.data.DataLoader(augset2, batch_size=256, shuffle=True, 
 augloader3 = torch.utils.data.DataLoader(augset3, batch_size=256, shuffle=True, num_workers=2)
 
 net = get_model()
-net = torch.nn.DataParallel(net)
+#net = torch.nn.DataParallel(net)
 net = net.cuda()
 
 
@@ -75,7 +75,7 @@ optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 print('Start Training')
 
 net.train()
-for epoch in range(100):
+for epoch in range(90):
     running_loss = 0.0
     for i, data in enumerate(trainloader): #Original training set
         # get the inputs; data is a list of [inputs, labels]
@@ -147,24 +147,24 @@ for epoch in range(100):
 print('Finished Training')
 
 
-validset = CustomDataset(root='./dataset', split="val", transform=train_transform)
-valLoader = torch.utils.data.DataLoader(validset, batch_size=256, shuffle=True, num_workers=2)
+#validset = CustomDataset(root='/dataset', split="val", transform=train_transform)
+#valLoader = torch.utils.data.DataLoader(validset, batch_size=256, shuffle=True, num_workers=2)
 
-with torch.no_grad():
-    net.eval()
-    running_loss = 0
-    for i, data in enumerate(valLoader):
-        inputs, labels = data
-        inputs, labels = inputs.cuda(), labels.cuda()
+#with torch.no_grad():
+#    net.eval()
+#    running_loss = 0
+#    for i, data in enumerate(valLoader):
+#        inputs, labels = data
+#        inputs, labels = inputs.cuda(), labels.cuda()
         
 
-        outputs = net(inputs)
-        loss = criterion(outputs, labels)
+#        outputs = net(inputs)
+#        loss = criterion(outputs, labels)
         
-        running_loss += loss.item()
-        if i % 10 == 9:    # print every 10 mini-batches
-            print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
-            running_loss = 0.0   
+#        running_loss += loss.item()
+#        if i % 10 == 9:    # print every 10 mini-batches
+#            print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+#            running_loss = 0.0   
 
 
 os.makedirs(args.checkpoint_dir, exist_ok=True)

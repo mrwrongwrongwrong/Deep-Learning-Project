@@ -5,7 +5,7 @@ from torchvision import models, transforms
 
 team_id = 10
 team_name = "dl10"
-email_address = "team_leader_nyu_email_address@nyu.edu"
+email_address = "wl2337@nyu.edu"
 
 def get_model():
 	#model = models.resnet50(num_classes=800)
