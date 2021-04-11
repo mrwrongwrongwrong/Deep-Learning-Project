@@ -31,43 +31,43 @@ rnd_color_jitter3 = transforms.RandomApply([color_jitter3], p=0.8)
 rnd_gray = transforms.RandomGrayscale(p=0.2)
 
 aug_transform1 = transforms.Compose([
-    transforms.ToTensor(),
     transforms.RandomResizedCrop((96,96), scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333)),
-    transforms.Compose([
-        rnd_color_jitter1,
-        rnd_gray])
+    rnd_color_jitter1,
+    rnd_gray,
+    transforms.ToTensor(),
 ])
 
 aug_transform2 = transforms.Compose([
-    transforms.ToTensor(),
     transforms.RandomResizedCrop((96,96), scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333)),
-    transforms.Compose([
-        rnd_color_jitter2,
-        rnd_gray])
+    rnd_color_jitter2,
+    rnd_gray,
+    transforms.ToTensor(),
 ])
 
 aug_transform3 = transforms.Compose([
-    transforms.ToTensor(),
     transforms.RandomResizedCrop((96,96), scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333)),
-    transforms.Compose([
-        rnd_color_jitter3,
-        rnd_gray])
+    rnd_color_jitter3,
+    rnd_gray,
+    transforms.ToTensor(),
 ])
 
 train_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-trainset = CustomDataset(root='./dataset', split="train", transform=train_transform)
-augset1 = CustomDataset(root='./dataset', split="train", transform=aug_transform1)
-augset2 = CustomDataset(root='./dataset', split="train", transform=aug_transform2)
-augset3 = CustomDataset(root='./dataset', split="train", transform=aug_transform3)
+trainset = CustomDataset(root='/dataset', split="train", transform=train_transform)
+augset1 = CustomDataset(root='/dataset', split="train", transform=aug_transform1)
+augset2 = CustomDataset(root='/dataset', split="train", transform=aug_transform2)
+augset3 = CustomDataset(root='/dataset', split="train", transform=aug_transform3)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=256, shuffle=True, num_workers=2)
 augloader1 = torch.utils.data.DataLoader(augset1, batch_size=256, shuffle=True, num_workers=2)
 augloader2 = torch.utils.data.DataLoader(augset2, batch_size=256, shuffle=True, num_workers=2)
 augloader3 = torch.utils.data.DataLoader(augset3, batch_size=256, shuffle=True, num_workers=2)
 
-net = get_model().cuda()
+net = get_model()
+net = torch.nn.DataParallel(net)
+net = net.cuda()
+
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
