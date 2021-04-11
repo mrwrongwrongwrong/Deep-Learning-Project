@@ -146,6 +146,7 @@ for epoch in range(100):
 
 print('Finished Training')
 
+
 validset = CustomDataset(root='./dataset', split="val", transform=train_transform)
 valLoader = torch.utils.data.DataLoader(validset, batch_size=256, shuffle=True, num_workers=2)
 
