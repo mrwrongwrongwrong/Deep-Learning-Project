@@ -19,9 +19,9 @@ args = parser.parse_args()
 # Augmentation part, idea from "A Simple Framework for Contrastive Learning of Visual Representations"
 # https://arxiv.org/pdf/2002.05709.pdf
  
-s1 = 0.25
-s2 = 0.5
-s3 = 0.75
+s1 = 0.5
+s2 = 0.75
+s3 = 1
 color_jitter1 = transforms.ColorJitter(0.8*s1, 0.8*s1, 0.8*s1, 0.2*s1)
 color_jitter2 = transforms.ColorJitter(0.8*s2, 0.8*s2, 0.8*s2, 0.2*s2)
 color_jitter3 = transforms.ColorJitter(0.8*s3, 0.8*s3, 0.8*s3, 0.2*s3)
@@ -75,7 +75,7 @@ optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 print('Start Training')
 
 net.train()
-for epoch in range(25):
+for epoch in range(100):
     running_loss = 0.0
     for i, data in enumerate(trainloader): #Original training set
         # get the inputs; data is a list of [inputs, labels]
