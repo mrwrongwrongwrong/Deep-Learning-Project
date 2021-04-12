@@ -1,0 +1,138 @@
+In summary:
+
+---------log in---------
+ssh <your NetID>@gw.hpc.nyu.edu
+ssh <your NetID>@greene.hpc.nyu.edu
+ssh log-4
+------------------
+
+--------Partition--------
+srun --partition=interactive --account dl<your Team Number> --pty /bin/bash
+df -h
+(home, scratch, apps are network drives, which are hosted by NYU, not mounted on Greene. One can make a copy to Greene by scp.)
+(17min mark in his video, how to save)
+------------------
+
+---------DL21SP---------
+pwd 
+cd  /scratch/DL21SP
+
+/scratch/DL21SP$ ls
+/scratch/DL21SP$ ls -al
+/scratch/DL21SP$ ls 
+(Cd test)
+(Feel free to make a copy conda.ext3 to your local scratch folder)
+(beginning of the instruction)
+
+/scratch/DL21SP$ cp -r test ~
+/scratch/DL21SP$ cd 
+~$ ls
+/scratch/DL21SP$ cd test
+------------------
+
+---------check the command of singularity---------
+~/test$ cat demo.sbatch   
+(21min mark)
+
+(Singularity is a virtual machine.)
+
+~/test$ cd ..
+
+Singularity exec --nv (pass my gpu from host to virtual machine)
+(skip the above step)
+
+Singularity exec --bind /scratch (bind scratch folder to virtual machine)
+
+(load conda scratch file:--overlay /scratch/DL21SP/conda.sqsh:ro
+ load dataset: --overlay /tmp/student_dataset.sqsh:ro
+ tell the singularity which virtual machine we are gonna run: /share/apps/images/cuda11.1-cudnn8-devel-ubuntu18.04.sif)
+~$singularity exec --bind /scratch --overlay /scratch/DL21SP/conda.sqsh:ro --overlay /scratch/DL21SP/student_dataset.sqsh:ro /share/apps/images/cuda11.1-cudnn8-devel-ubuntu18.04.sif /bin/bash
+(bind scratch folder to virtual machine)
+
+(now you are on virtual machine Singularity)
+------------------
+
+
+-
+--------Operations in Singularity--------
+<Singularity> df -h
+<Singularity> cd /ext3
+<Singularity> ls 
+(find environment.yml)
+<Singularity> cat environment.yml 
+<Singularity> cd
+<Singularity> cd /dataset
+<Singularity> ls
+<Singularity> ls -al
+(get all images of labeled training set)
+<Singularity> cd train
+<Singularity> cd ..
+<Singularity> ls
+(25min mark)
+<Singularity> cd train
+(count the number of files)
+<Singularity> ls | wc -l
+<Singularity> cd ..
+<Singularity> ls 
+<Singularity> cd 
+<Singularity> ls
+<Singularity> exit 
+
+-------------the end of Singularity -----------
+~$ ls
+~$ cd test/ 
+~/test$ ls
+
+--------run batch file in CPU node by creating files as demo.sbatch or demo_2gpu.sbatch---------
+(Submit job)
+~/test$ sbatch demo.sbatch
+(Check running jobs)
+~/test$ squeue -u <your NetID>
+(R means run, CP means configuration mode)
+
+~/test$ ls
+(check what is inside of the sbatch) (27min mark)
+~/test$ emacs demo.sbatch 
+
+(~/test$ emacs demo_2gpu.sbatch)
+(don’t forget to change the account number.  time and number of GPU are also changeable)
+(copy the dataset file into /tmp, in order to accelerate running speed)
+
+(In order to improve the speed: copy the file /scratch/DL21SP/stduent_dataset.sqsh to the folder /tmp)
+ (in instance, not network drive)
+(Mkdir /tmp/$USER
+Export SINGULARITY_CACHEDIR=/tmp/$USER
+cp -rp /scratch/DL21SP/stduent_dataset.sqsh /tmp 
+echo “Dataset is copied to /tmp”)
+
+Cd $HOME/test 
+(Warning: you have to change this location)
+--------------------------
+
+--------Start Virtual Machine--------
+(31min:15sec)
+(Singularity exec --nv \
+--bind /scratch \
+--overlay /scratch/DL21SP/conda.sqsh:ro \
+--overlay /tmp/student_dataset.sqsh:ro \
+/share/apps/images/cuda11.1-cudnn8-devel-ubuntu18.04.sif \
+/bin/bash -c “)
+
+Source /ext3/env.sh
+Conda activate dev
+Python demo.py --checkpoint-dir $SCRATCH/checkpoints/demo
+Python eval.py --checkpoint-path $SCRATCH/checkpoints/demo/net_demo.pth
+
+---------------------------------
+
+----------Running with 2 GPUs-----------
+~/test$ emacs demo-2gpu.sbatch
+(don’t forget to change the partition and the GPU)
+
+--------------------------------------------------
+
+---------------RUN------------------
+(queue your demo)
+~/test$ squeue -u <your net ID> 
+(showing the result)
+~/test$ cat demo_1652.out 
