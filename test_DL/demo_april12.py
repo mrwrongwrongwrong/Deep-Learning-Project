@@ -1,4 +1,4 @@
-#copy from demo.py on april 12
+#copied from demo.py on april 12
 
 import os
 import argparse
@@ -29,6 +29,7 @@ color_jitter3 = transforms.ColorJitter(0.8*s3, 0.8*s3, 0.8*s3, 0.2*s3)
 rnd_color_jitter1 = transforms.RandomApply([color_jitter1], p=0.8)
 rnd_color_jitter2 = transforms.RandomApply([color_jitter2], p=0.8)
 rnd_color_jitter3 = transforms.RandomApply([color_jitter3], p=0.8)
+#https://zhuanlan.zhihu.com/p/53367135
 rnd_gray = transforms.RandomGrayscale(p=0.2)
 
 aug_transform1 = transforms.Compose([
