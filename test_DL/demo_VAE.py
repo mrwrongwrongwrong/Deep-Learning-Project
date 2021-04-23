@@ -21,7 +21,7 @@ train_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 #trainset and trainloaders
-trainset = CustomDataset(root='./dataset', split="train", transform=train_transform)
+trainset = CustomDataset(root='/dataset', split="train", transform=train_transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=256, shuffle=True, num_workers=2)
 
 #net = get_model().cuda()
