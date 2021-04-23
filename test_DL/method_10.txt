@@ -1,0 +1,5 @@
+We apply our model on untrained dataset for a batch size of 10. Since our model has about 15% accuracy, so we decide batch size of 8.
+Among these 8 datapoints, we use Smallest Margin Uncertainty method to find out 1 datapoint and label it with the most posible label.
+
+There are in total 512,000 files in /dataset/unlabeled. With our method, we convert 12.5% files (#64,000 files) from unlabeled to labeled. 
+For the rest 87.5% files(#448,000 files), we want to request the ground truth. We pick 12,800 files which have lowest score out of 448,000 files.
