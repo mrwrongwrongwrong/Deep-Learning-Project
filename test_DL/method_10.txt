@@ -4,4 +4,4 @@ Among these 8 datapoints, we use Smallest Margin Uncertainty method to find out 
 There are in total 512,000 files in /dataset/unlabeled. With our method, we convert 12.5% files (#64,000 files) from unlabeled to labeled. 
 
 For the rest 87.5% files(#448,000 files), we don't have enough confidence to believe we can label it correctly with the current model, 
-so we need to request the ground truth. We randomly pick 12,800 files out of these 448,000 files.
+so we need to request the ground truth. We pick 12,800 files which have lowest score in their batch out of these 448,000 files.
