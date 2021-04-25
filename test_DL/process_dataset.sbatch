@@ -29,6 +29,6 @@ singularity exec --nv \
 /bin/bash -c "
 source /ext3/env.sh
 conda activate dev
-python continue_training.py --checkpoint-dir $SCRATCH/checkpoints/demo
-python eval.py --checkpoint-path $SCRATCH/checkpoints/demo/net_demo_con.pth
+python process_dataset.py --checkpoint-dir $SCRATCH/checkpoints/demo
+#python eval.py --checkpoint-path $SCRATCH/checkpoints/demo/net_demo_con.pth
 "
