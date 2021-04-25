@@ -3,7 +3,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --partition=n1s8-t4-1
 #SBATCH --account=dl10
-#SBATCH --time=12:00:00
+#SBATCH --time=23:00:00
 #SBATCH --output=demo_%j.out
 #SBATCH --error=demo_%j.err
 #SBATCH --exclusive
@@ -29,6 +29,6 @@ singularity exec --nv \
 /bin/bash -c "
 source /ext3/env.sh
 conda activate dev
-python continue_training.py --checkpoint-dir $SCRATCH/checkpoints/demo
+python semi_training.py --checkpoint-dir $SCRATCH/checkpoints/demo
 python eval.py --checkpoint-path $SCRATCH/checkpoints/demo/net_demo_con.pth
 "
