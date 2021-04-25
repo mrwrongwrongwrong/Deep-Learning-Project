@@ -111,9 +111,9 @@ for epoch in range(100):
         # get the inputs; data is a list of [inputs, labels]
         inputs, labels = data
         inputs, labels = inputs.cuda(), labels.cuda()
-        print("inputs shape:",inputs.shape)
-        print("labels shape:",labels.shape)
-        print(labels)
+        #print("inputs shape:",inputs.shape)
+        #print("labels shape:",labels.shape)
+        #print(labels)
 
         outputs = net(inputs)
         loss = criterion(outputs, labels)
