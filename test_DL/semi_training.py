@@ -33,13 +33,14 @@ os.system('''
 IDX=0
 while read p; do
     cp /dataset/unlabeled/$p /tmp/wl2337/newlyLabeled/${IDX}.png
+    echo $p
     IDX=`expr $IDX + 1`
-done < movedFileNames.txt
+done < request_10.csv
 echo $IDX
     ''')
 
 os.system("ls /tmp/wl2337/newlyLabeled")
-os.system("cp newlyLabeled.pt /tmp/wl2337/newlyLabeled_label_tensor.pt")
+os.system("cp label_10.pt /tmp/wl2337/newlyLabeled_label_tensor.pt")
 os.system("ls /tmp/wl2337")
 
 
@@ -92,7 +93,7 @@ augloader3 = torch.utils.data.DataLoader(augset3, batch_size=256, shuffle=True, 
 print("Loader Finished")
 
 net = get_model()
-checkPointDir = './model2.pth'
+checkPointDir = './model.pth'
 checkpoint = torch.load(checkPointDir)
 net.load_state_dict(checkpoint)
 net = net.cuda()
