@@ -92,7 +92,7 @@ augloader3 = torch.utils.data.DataLoader(augset3, batch_size=256, shuffle=True, 
 print("Loader Finished")
 
 net = get_model()
-checkPointDir = './model.pth'
+checkPointDir = './model2.pth'
 checkpoint = torch.load(checkPointDir)
 net.load_state_dict(checkpoint)
 net = net.cuda()
@@ -104,7 +104,7 @@ optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 print('Start Training')
 
 net.train()
-for epoch in range(100):
+for epoch in range(50):
     print("epoch =",epoch)
     running_loss = 0.0
     for i, data in enumerate(trainloader): #Original training set
