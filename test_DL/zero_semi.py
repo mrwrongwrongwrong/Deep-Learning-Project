@@ -45,7 +45,6 @@ os.system('''
                 echo $IDX
                         ''')
 
-#os.system("ls /tmp/wl2337/newlyLabeled")
 os.system("cp newlyLabeled.pt /tmp/wl2337/newlyLabeled_label_tensor.pt")
 os.system("cp label_10.pt /tmp/wl2337/givenLabeled_label_tensor.pt")
 os.system("ls /tmp/wl2337")
@@ -280,7 +279,75 @@ for epoch in range(50):
             print('After 3rd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
             running_loss = 0.0                       
 
+    for i, data in enumerate(given_trainloader): #Original given_training set
+        # get the inputs; data is a list of [inputs, labels]
+        inputs, labels = data
+        inputs, labels = inputs.cuda(), labels.cuda()
+        #print("inputs shape:",inputs.shape)
+        #print("labels shape:",labels.shape)
+        #print(labels)
 
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # print statistics
+        running_loss += loss.item()
+        if i % 10 == 9:    # print every 10 mini-batches
+            print('Original Training Set on newlyLabeled:[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            running_loss = 0.0
+    for i, data in enumerate(given_augloader1): #After 1st augmentation on givenLabeled
+        inputs, labels = data
+        inputs, labels = inputs.cuda(), labels.cuda()
+        
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # print statistics
+        running_loss += loss.item()
+        if i % 10 == 9:    # print every 10 mini-batches
+            print('After 1st augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            running_loss = 0.0            
+    for i, data in enumerate(given_augloader2):
+        inputs, labels = data
+        inputs, labels = inputs.cuda(), labels.cuda()
+        
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # print statistics
+        running_loss += loss.item()
+        if i % 10 == 9:    # print every 10 mini-batches
+            print('After 2nd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))            
+            running_loss = 0.0     
+
+    for i, data in enumerate(given_augloader3):
+        inputs, labels = data
+        inputs, labels = inputs.cuda(), labels.cuda()
+        
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # print statistics
+        running_loss += loss.item()
+        if i % 10 == 9:    # print every 10 mini-batches
+            print('After 3rd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            running_loss = 0.0            
 
 
 
