@@ -17,6 +17,7 @@ parser.add_argument('--checkpoint-dir', type=str)
 args = parser.parse_args()
 
 os.system("mkdir /tmp/wl2337/newlyLabeled")
+os.system("mkdir /tmp/wl2337/givenLabeled")
 os.system("echo make directary?")
 os.system("ls /tmp/wl2337")
 os.system("echo Anything there?")
@@ -33,8 +34,20 @@ os.system('''
                 echo $IDX
 ''')
 
-os.system("ls /tmp/wl2337/newlyLabeled")
+
+os.system('''
+        IDX=0
+        while read p; do
+            cp /dataset/unlabeled/$p /tmp/wl2337/givenLabeled/${IDX}.png
+                echo $p
+                IDX=`expr $IDX + 1`
+                done < request_10.csv
+                echo $IDX
+                        ''')
+
+#os.system("ls /tmp/wl2337/newlyLabeled")
 os.system("cp newlyLabeled.pt /tmp/wl2337/newlyLabeled_label_tensor.pt")
+os.system("cp label_10.pt /tmp/wl2337/givenLabeled_label_tensor.pt")
 os.system("ls /tmp/wl2337")
 
 
@@ -105,6 +118,15 @@ newly_trainloader = torch.utils.data.DataLoader(newly_trainset, batch_size=256, 
 newly_augloader1 = torch.utils.data.DataLoader(newly_augset1, batch_size=256, shuffle=True, num_workers=2)
 newly_augloader2 = torch.utils.data.DataLoader(newly_augset2, batch_size=256, shuffle=True, num_workers=2)
 newly_augloader3 = torch.utils.data.DataLoader(newly_augset3, batch_size=256, shuffle=True, num_workers=2)
+
+given_trainset = CustomDataset(root='/tmp/wl2337/', split="givenLabeled", transform=train_transform)
+given_augset1 = CustomDataset(root='/tmp/wl2337/', split="givenLabeled", transform=aug_transform1)
+given_augset2 = CustomDataset(root='/tmp/wl2337/', split="givenLabeled", transform=aug_transform2)
+given_augset3 = CustomDataset(root='/tmp/wl2337/', split="givenLabeled", transform=aug_transform3)
+given_trainloader = torch.utils.data.DataLoader(given_trainset, batch_size=256, shuffle=True, num_workers=2)
+given_augloader1 = torch.utils.data.DataLoader(given_augset1, batch_size=256, shuffle=True, num_workers=2)
+given_augloader2 = torch.utils.data.DataLoader(given_augset2, batch_size=256, shuffle=True, num_workers=2)
+given_augloader3 = torch.utils.data.DataLoader(given_augset3, batch_size=256, shuffle=True, num_workers=2)
 
 
 
@@ -257,6 +279,14 @@ for epoch in range(50):
         if i % 10 == 9:    # print every 10 mini-batches
             print('After 3rd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
             running_loss = 0.0                       
+
+
+
+
+
+
+
+
 
 print('Finished Training')
 
