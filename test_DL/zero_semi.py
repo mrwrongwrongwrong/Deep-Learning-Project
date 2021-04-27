@@ -29,21 +29,21 @@ os.system('''
         IDX=0
         while read p; do
             cp /dataset/unlabeled/$p /tmp/wl2337/newlyLabeled/${IDX}.png
-            IDX=`expr $IDX + 1`
-        done < movedFileNames.txt
-        echo $IDX
-        ''')
+                IDX=`expr $IDX + 1`
+                done < movedFileNames.txt
+                echo $IDX
+''')
 
 
 os.system('''
         IDX=0
         while read p; do
             cp /dataset/unlabeled/$p /tmp/wl2337/givenLabeled/${IDX}.png
-            echo $p
-            IDX=`expr $IDX + 1`
-        done < request_10.csv
-        echo $IDX
-        ''')
+                echo $p
+                IDX=`expr $IDX + 1`
+                done < request_10.csv
+                echo $IDX
+                        ''')
 
 os.system("cp newlyLabeled.pt /tmp/wl2337/newlyLabeled_label_tensor.pt")
 os.system("cp label_10.pt /tmp/wl2337/givenLabeled_label_tensor.pt")
