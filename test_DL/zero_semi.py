@@ -297,7 +297,7 @@ for epoch in range(50):
         # print statistics
         running_loss += loss.item()
         if i % 10 == 9:    # print every 10 mini-batches
-            print('Original Training Set on newlyLabeled:[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            print('Original Training Set on givenLabeled:[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
             running_loss = 0.0
     for i, data in enumerate(given_augloader1): #After 1st augmentation on givenLabeled
         inputs, labels = data
@@ -313,7 +313,7 @@ for epoch in range(50):
         # print statistics
         running_loss += loss.item()
         if i % 10 == 9:    # print every 10 mini-batches
-            print('After 1st augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            print('After 1st augmentation on givenLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
             running_loss = 0.0            
     for i, data in enumerate(given_augloader2):
         inputs, labels = data
@@ -329,7 +329,7 @@ for epoch in range(50):
         # print statistics
         running_loss += loss.item()
         if i % 10 == 9:    # print every 10 mini-batches
-            print('After 2nd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))            
+            print('After 2nd augmentation on givenLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))            
             running_loss = 0.0     
 
     for i, data in enumerate(given_augloader3):
@@ -346,7 +346,7 @@ for epoch in range(50):
         # print statistics
         running_loss += loss.item()
         if i % 10 == 9:    # print every 10 mini-batches
-            print('After 3rd augmentation on newlyLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
+            print('After 3rd augmentation on givenLabeled: [%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 10))
             running_loss = 0.0            
 
 
