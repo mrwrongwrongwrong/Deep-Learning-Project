@@ -130,7 +130,7 @@ given_augloader3 = torch.utils.data.DataLoader(given_augset3, batch_size=256, sh
 
 
 net = get_model()
-checkPointDir = './model3.pth'
+checkPointDir = './model5.pth'
 checkpoint = torch.load(checkPointDir)
 net.load_state_dict(checkpoint)
 net = net.cuda()
