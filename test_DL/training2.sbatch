@@ -19,7 +19,7 @@ export SINGULARITY_CACHEDIR=/tmp/$USER
 cp -rp /scratch/DL21SP/student_dataset.sqsh /tmp
 echo "Dataset is copied to /tmp"
 
-cd $HOME/test
+cd $HOME/dl_project/test_DL
 
 singularity exec --nv \
 --bind /scratch \
